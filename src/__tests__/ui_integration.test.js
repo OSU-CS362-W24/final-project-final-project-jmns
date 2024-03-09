@@ -23,8 +23,6 @@ function initDomFromFiles(htmlPath, jsPath) {
         })
 }
 
-
-
 /**********************************************
 *
 *
@@ -33,7 +31,35 @@ function initDomFromFiles(htmlPath, jsPath) {
 *
 **********************************************/
 
-// Adds another input pair
+// Adds another input pair to the list of input
+test("Adds another input pair to the list of input", async function () {
+    initDomFromFiles(
+        `${__dirname}/../line/line.html`,
+        `${__dirname}/../line/line.js`
+    )
+    const user = userEvent.setup()
+
+    // Check that there are only two inputs avaliable (1 X, 1 Y)
+    var dataXInputs = domTesting.queryAllByLabelText(document, "X")
+    var dataYInputs = domTesting.queryAllByLabelText(document, "Y")
+
+    expect(dataXInputs).toHaveLength(1)
+    expect(dataYInputs).toHaveLength(1)
+
+    // Get Button to add input pair
+    const button = domTesting.getByRole(document, "button", {name : "+"})
+
+    // Click Button 
+    await user.click(button)
+
+    // Check that there are now 4 inputs avaliable (2 X, 2 Y)
+    dataXInputs = domTesting.queryAllByLabelText(document, "X")
+    dataYInputs = domTesting.queryAllByLabelText(document, "Y")
+
+    expect(dataXInputs).toHaveLength(2)
+    expect(dataYInputs).toHaveLength(2)
+})
+
 
 // Old values are presesrved correctly
 
