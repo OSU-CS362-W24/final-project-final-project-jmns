@@ -1,9 +1,29 @@
+/**
+* @jest-environment jsdom
+*/
 
 /*
     UI Integration Test
     Tests the UI using line.html and line.js (however functionally the same as scatter and bar)
     By Justin Pham
 */
+
+const fs = require("fs")
+require('@testing-library/jest-dom')
+const domTesting = require('@testing-library/dom')
+const userEvent = require("@testing-library/user-event").default
+
+function initDomFromFiles(htmlPath, jsPath) {
+    const html = fs.readFileSync(htmlPath, 'utf8')
+    document.open()
+    document.write(html)
+    document.close()
+    jest.isolateModules(function () {
+        require(jsPath)
+        })
+}
+
+
 
 /**********************************************
 *
