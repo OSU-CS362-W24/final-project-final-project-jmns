@@ -83,10 +83,10 @@ test("Adds another input pair to the list of input", async function () {
     expect(dataYInputs).toHaveLength(1)
 
     // Get Button to add input pair
-    const button = domTesting.getByRole(document, "button", {name : "+"})
+    const plusButton = domTesting.getByRole(document, "button", {name : "+"})
 
     // Click Button 
-    await user.click(button)
+    await user.click(plusButton)
 
     // Check that there are now 4 inputs avaliable (2 X, 2 Y)
     dataXInputs = domTesting.queryAllByLabelText(document, "X")
@@ -119,10 +119,10 @@ test("Old values are presesrved correctly when another input pair is added", asy
     expect(dataYInputs[0]).toHaveValue(yValue)
 
     // Get Button to add input pair
-    const button = domTesting.getByRole(document, "button", {name : "+"})
+    const plusButton = domTesting.getByRole(document, "button", {name : "+"})
 
     // Click Button 
-    await user.click(button)
+    await user.click(plusButton)
 
     // Assert that the two inputs have the same value
     expect(dataXInputs[0]).toHaveValue(xValue)
@@ -138,10 +138,10 @@ test("New input pair can be typed into when another input pair is added", async 
     const value = 9
 
     // Get Button to add input pair
-    const button = domTesting.getByRole(document, "button", {name : "+"})
+    const plusButton = domTesting.getByRole(document, "button", {name : "+"})
 
     // Click Button 
-    await user.click(button)
+    await user.click(plusButton)
     
     // Get all inputs avaliable
     const dataXInputs = domTesting.queryAllByLabelText(document, "X")
@@ -170,10 +170,10 @@ test("Multiple input pairs can be added", async function () {
     const user = userEvent.setup()
 
     // Get Button to add input pair
-    const button = domTesting.getByRole(document, "button", {name : "+"})
+    const plusButton = domTesting.getByRole(document, "button", {name : "+"})
 
     // Click Button 
-    await user.click(button)
+    await user.click(plusButton)
     
     // Get all inputs avaliable
     var dataXInputs = domTesting.queryAllByLabelText(document, "X")
@@ -184,21 +184,21 @@ test("Multiple input pairs can be added", async function () {
     expect(dataYInputs).toHaveLength(2)
 
     // Click Button Again
-    await user.click(button)
-    await user.click(button)
-    await user.click(button)
-    await user.click(button)
-    await user.click(button)
-    await user.click(button)
-    await user.click(button)
-    await user.click(button)
-    await user.click(button)
-    await user.click(button)
-    await user.click(button)
-    await user.click(button)
-    await user.click(button)
-    await user.click(button)
-    await user.click(button)
+    await user.click(plusButton)
+    await user.click(plusButton)
+    await user.click(plusButton)
+    await user.click(plusButton)
+    await user.click(plusButton)
+    await user.click(plusButton)
+    await user.click(plusButton)
+    await user.click(plusButton)
+    await user.click(plusButton)
+    await user.click(plusButton)
+    await user.click(plusButton)
+    await user.click(plusButton)
+    await user.click(plusButton)
+    await user.click(plusButton)
+    await user.click(plusButton)
 
     // Get all inputs avaliable
     dataXInputs = domTesting.queryAllByLabelText(document, "X")
@@ -220,11 +220,49 @@ test("Multiple input pairs can be added", async function () {
 
 // No Values in Values section ------------------------------
 
-// Error message pops up when missing X Y values
+// Error message pops up when missing XY values
+test("Error message pops up when missing XY values", async function () {
+
+    const user = userEvent.setup()
+
+    // Get Generate Chart Button
+    const generateChartButton = domTesting.getByRole(document, "button", {name : "Generate chart"})
+
+    // Create a spy for the alert
+    const alert = jest.spyOn(window, "alert")
+
+    await user.click(generateChartButton)
+
+    // Assert that a message/alert appeared on the screen to be read
+    expect(alert).toHaveBeenCalledTimes(1)
+
+    alert.mockRestore()
+})
 
 // Error message displays the message Error: No data specified!
+test("Error message displays the message Error: No data specified!", async function () {
 
-// Error message able to be closed out of (using the OK button)
+    const user = userEvent.setup()
+
+    const errorMessage = "Error: No data specified!"
+
+    // Get Generate Chart Button
+    const generateChartButton = domTesting.getByRole(document, "button", {name : "Generate chart"})
+
+    // Create a spy for the alert
+    const alert = jest.spyOn(window, "alert")
+
+    await user.click(generateChartButton)
+
+    // Assert that a message/alert appeared on the screen to be read
+    expect(alert).toHaveBeenCalledTimes(1)
+
+    // Assert that the error displays the specified message
+    const alertMessage = alert.mock.lastCall[0]
+    expect(alertMessage).toEqual(errorMessage)
+
+    alert.mockRestore()
+})
 
 // No Labels in Labels section ------------------------------
 
@@ -235,9 +273,6 @@ test("Multiple input pairs can be added", async function () {
 // Missing y label pops up an error message ?
 
 // Error message displays the message Error: Must specify a label for both X and Y!
-
-// Error message able to be closed out of (using the OK button)
-
 
 /**********************************************
 *
