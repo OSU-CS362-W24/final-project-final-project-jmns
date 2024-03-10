@@ -165,6 +165,50 @@ test("New input pair can be typed into when another input pair is added", async 
 })
 
 // Multiple input pairs can be added
+test("Multiple input pairs can be added", async function () {
+
+    const user = userEvent.setup()
+
+    // Get Button to add input pair
+    const button = domTesting.getByRole(document, "button", {name : "+"})
+
+    // Click Button 
+    await user.click(button)
+    
+    // Get all inputs avaliable
+    var dataXInputs = domTesting.queryAllByLabelText(document, "X")
+    var dataYInputs = domTesting.queryAllByLabelText(document, "Y")
+
+    // Assert that new inputs have been created
+    expect(dataXInputs).toHaveLength(2)
+    expect(dataYInputs).toHaveLength(2)
+
+    // Click Button Again
+    await user.click(button)
+    await user.click(button)
+    await user.click(button)
+    await user.click(button)
+    await user.click(button)
+    await user.click(button)
+    await user.click(button)
+    await user.click(button)
+    await user.click(button)
+    await user.click(button)
+    await user.click(button)
+    await user.click(button)
+    await user.click(button)
+    await user.click(button)
+    await user.click(button)
+
+    // Get all inputs avaliable
+    dataXInputs = domTesting.queryAllByLabelText(document, "X")
+    dataYInputs = domTesting.queryAllByLabelText(document, "Y")
+
+    // Assert that more inputs have been created
+    expect(dataXInputs).toHaveLength(17)
+    expect(dataYInputs).toHaveLength(17)
+
+})
 
 /**********************************************
 *
