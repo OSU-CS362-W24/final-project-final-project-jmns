@@ -8,6 +8,8 @@
     By Justin Pham
 */
 
+const chartStorage = require(`${__dirname}/../lib/chartStorage`)
+
 const fs = require("fs")
 require('@testing-library/jest-dom')
 const domTesting = require('@testing-library/dom')
@@ -23,6 +25,43 @@ function initDomFromFiles(htmlPath, jsPath) {
         })
 }
 
+/*
+    This project has a really annoying quirk where
+    even when I reset the html and js files, the input
+    areas do not, created this function to manually clear
+    it to reset it.
+*/
+function resetInputValues(){
+
+    // Reset All Inputs
+    currentChartData = {}
+    chartStorage.updateCurrentChartData(currentChartData)
+}
+
+beforeEach(() => {
+    resetInputValues()
+
+    /*
+        You can toggle which page in the website to test with
+        Although each page (line, bar, scatter) is functionally the same
+    */
+
+    initDomFromFiles(
+        `${__dirname}/../line/line.html`,
+        `${__dirname}/../line/line.js`
+    )
+
+    // initDomFromFiles(
+    //     `${__dirname}/../bar/bar.html`,
+    //     `${__dirname}/../bar/bar.js`
+    // )
+
+    // initDomFromFiles(
+    //     `${__dirname}/../scatter/scatter.html`,
+    //     `${__dirname}/../scatter/scatter.js`
+    // )
+})
+
 /**********************************************
 *
 *
@@ -33,10 +72,7 @@ function initDomFromFiles(htmlPath, jsPath) {
 
 // Adds another input pair to the list of input
 test("Adds another input pair to the list of input", async function () {
-    initDomFromFiles(
-        `${__dirname}/../line/line.html`,
-        `${__dirname}/../line/line.js`
-    )
+
     const user = userEvent.setup()
 
     // Check that there are only two inputs avaliable (1 X, 1 Y)
@@ -61,9 +97,72 @@ test("Adds another input pair to the list of input", async function () {
 })
 
 
-// Old values are presesrved correctly
+// Old values are presesrved correctly when another input pair is added
+test("Old values are presesrved correctly when another input pair is added", async function () {
 
-// New input pair can be typed into
+    const user = userEvent.setup()
+
+    const xValue = 2
+    const yValue = 5
+
+    // Get the two inputs avaliable and add values to them
+    const dataXInputs = domTesting.queryAllByLabelText(document, "X")
+    const dataYInputs = domTesting.queryAllByLabelText(document, "Y")
+
+    expect(dataXInputs).toHaveLength(1)
+    expect(dataYInputs).toHaveLength(1)
+
+    await user.type(dataXInputs[0], `${xValue}`)
+    await user.type(dataYInputs[0], `${yValue}`)
+
+    expect(dataXInputs[0]).toHaveValue(xValue)
+    expect(dataYInputs[0]).toHaveValue(yValue)
+
+    // Get Button to add input pair
+    const button = domTesting.getByRole(document, "button", {name : "+"})
+
+    // Click Button 
+    await user.click(button)
+
+    // Assert that the two inputs have the same value
+    expect(dataXInputs[0]).toHaveValue(xValue)
+    expect(dataYInputs[0]).toHaveValue(yValue)
+
+})
+
+// New input pair can be typed into when another input pair is added
+test("New input pair can be typed into when another input pair is added", async function () {
+
+    const user = userEvent.setup()
+
+    const value = 9
+
+    // Get Button to add input pair
+    const button = domTesting.getByRole(document, "button", {name : "+"})
+
+    // Click Button 
+    await user.click(button)
+    
+    // Get all inputs avaliable
+    const dataXInputs = domTesting.queryAllByLabelText(document, "X")
+    const dataYInputs = domTesting.queryAllByLabelText(document, "Y")
+
+    // Assert that new inputs have been created
+    expect(dataXInputs).toHaveLength(2)
+    expect(dataYInputs).toHaveLength(2)
+
+    // Type value into all inputs (new and old)
+    await user.type(dataXInputs[0], `${value}`)
+    await user.type(dataXInputs[1], `${value}`)
+    await user.type(dataYInputs[0], `${value}`)
+    await user.type(dataYInputs[1], `${value}`)
+
+    // Assert that all inputs accept inputs
+    expect(dataXInputs[0]).toHaveValue(value)
+    expect(dataXInputs[1]).toHaveValue(value)
+    expect(dataYInputs[0]).toHaveValue(value)
+    expect(dataYInputs[1]).toHaveValue(value)
+})
 
 // Multiple input pairs can be added
 
