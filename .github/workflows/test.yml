@@ -28,6 +28,6 @@ jobs:
         with:
           project: ./src
           browser: chrome
-          build: npm build
-          start: npm start
+          build: npm run build
+          start: npm run start
           wait-on: "http://localhost:8000"
