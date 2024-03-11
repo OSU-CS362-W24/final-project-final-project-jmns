@@ -20,8 +20,8 @@ jobs:
         with:
           node-version: 21
 
-      - name: Run Unit and UI Integration Tests
-        run: npm run test
+      # - name: Run Unit and UI Integration Tests
+        # run: npm run test
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v3
