@@ -26,7 +26,7 @@ function initDomFromFiles(htmlPath, jsPath) {
     document.write(html)
     document.close()
     jest.isolateModules(function () {
-        require(jsPath)
+            require(jsPath)
         })
 }
 
@@ -74,6 +74,10 @@ beforeEach(() => {
     //     `${__dirname}/../scatter/scatter.html`,
     //     `${__dirname}/../scatter/scatter.js`
     // )
+})
+
+afterEach(() => {
+    jest.restoreAllMocks()
 })
 
 /**********************************************
@@ -670,6 +674,103 @@ test("Clearing chart data clears data from values", async function() {
 *
 **********************************************/
 
+const generateChartImg = require("../lib/generateChartImg")
+// const generateChartFun = require("../chartBuilder/chartBuilder")
+
 // Generate chart button sends the correct data to generateChartImg()
+test("Generate chart button sends the correct data to generateChartImg()", async function() {
+
+    const user = userEvent.setup()
+
+    /*
+        Fill in dummy values for every input
+    */
+    const chartTitle = domTesting.getByLabelText(document, "Chart title")
+    await user.type(chartTitle, "dummy")
+    
+    const xLabel = domTesting.getByLabelText(document, "X label")
+    await user.type(xLabel, "dummy")
+    
+    const yLabel = domTesting.getByLabelText(document, "Y label")
+    await user.type(yLabel, "dummy")
+    
+    // const chartColor = domTesting.getByLabelText(document, "Chart color")
+    
+    // Line referenced from: https://github.com/testing-library/user-event/issues/423
+    // No easy way to simulate picking a color from what I can find
+    // domTesting.fireEvent.input(chartColor, {target: {value: '#ff00ff'}})
+    
+    const plusButton = domTesting.getByRole(document, "button", {name : "+"})
+    
+    await user.click(plusButton)
+    await user.click(plusButton)
+    await user.click(plusButton)
+    
+    var dataXInputs = domTesting.queryAllByLabelText(document, "X")
+    var dataYInputs = domTesting.queryAllByLabelText(document, "Y")
+    
+    const dummy = '5'
+    await user.type(dataXInputs[0], dummy)
+    await user.type(dataYInputs[0], dummy)
+    await user.type(dataXInputs[1], dummy)
+    await user.type(dataYInputs[1], dummy)
+    await user.type(dataXInputs[2], dummy)
+    await user.type(dataYInputs[2], dummy)
+
+    // const objectTest = { 'generateChartImg' : generateChartImg}
+
+    // Create spy for generate chart
+    const generateChartImgSpy = jest.spyOn(generateChartImg, 'generateChartImg')
+
+    generateChartImgSpy['generateChartImg'] = jest.fn(() => {
+        return "http://placekitten.com/480/480"
+    })
+
+    // generateChartImgSpy.mockImplementation(function () {
+    //     return "http://placekitten.com/480/480"
+    // })
+
+    expect(chartTitle).toHaveValue()
+    expect(xLabel).toHaveValue()
+    expect(yLabel).toHaveValue()
+    expect(dataXInputs[0]).toHaveValue()
+    expect(dataYInputs[0]).toHaveValue()
+    expect(dataXInputs[1]).toHaveValue()
+    expect(dataYInputs[1]).toHaveValue()
+    expect(dataXInputs[2]).toHaveValue()
+    expect(dataYInputs[2]).toHaveValue()
+
+    generateChartImg.generateChartImg()
+
+    const generateChartButton = domTesting.getByRole(document, "button", {name : "Generate chart"})
+
+    await user.click(generateChartButton)
+
+    const chartImgSection = document.getElementById('chart-display')
+    
+    console.log(chartImgSection.innerHTML)
+
+    expect(generateChartImgSpy).toHaveBeenCalledTimes(1)
+
+    // expect(generateChartImgSpy).toHaveBeenCalledTimes(1)
+
+    // generateChartImgSpy.mockRestore()
+})
+
+// test("test function", function () {
+
+//     // const example = {'generateChartImg' : generateChartImg}
+
+//     // const exampleSpy = jest.spyOn(example, 'generateChartImg')
+
+//     // expect(generateChartImg("line", [{"x": 1, "y": 1}], "xLabel", "yLabel", "#ff4500")).toHaveValue()
+
+//     // exampleSpy.mockImplementation(function () {
+//     //     return "http://placekitten.com/480/480"
+//     // })
+
+
+
+// })
 
 // Generate chart button recieves an image
