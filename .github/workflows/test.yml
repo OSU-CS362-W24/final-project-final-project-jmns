@@ -1,4 +1,4 @@
-name: Build and Test
+name: Run Unit, UI Integration and Cypress E2E Tests
 
 on:
   push:
@@ -31,6 +31,3 @@ jobs:
           build: npm build
           start: npm start
           wait-on: "http://localhost:8000"
-
-      - name: Build
-        run: npm run build
