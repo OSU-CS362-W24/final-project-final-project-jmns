@@ -3,5 +3,5 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, closed]
 jobs:
-    test:
+    build-and-test:
         uses: ./.github/workflows/build-and-test.yml
