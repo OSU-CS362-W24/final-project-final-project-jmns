@@ -1,0 +1,40 @@
+# Run Unit, UI Integration and Cypress E2E Tests
+#   This workflow will run Unit, UI Integration and Cypress E2E Tests for the final project.
+#   by Nathan Rumsey
+
+
+name: Run Unit, UI Integration and Cypress E2E Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 21
+
+      - name: Run Unit and UI Integration Tests
+        run: |
+          npm install
+          npm run test
+
+      - name: Run Cypress Tests
+        uses: cypress-io/github-action@v3
+        with:
+          project: ./
+          browser: chrome
+          build: npm run build
+          start: npm run start
+          wait-on: "http://localhost:8080"
