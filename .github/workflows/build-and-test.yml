@@ -6,12 +6,11 @@
 name: Run Unit, UI Integration and Cypress E2E Tests
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      upload-pages-artifact:
+        type: boolean
+        required: false
 
 jobs:
   install:
@@ -25,10 +24,14 @@ jobs:
         with:
           node-version: 21
 
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+      
       - name: Run Unit and UI Integration Tests
-        run: |
-          npm install
-          npm run test
+        run: npm run test
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v3
@@ -38,3 +41,8 @@ jobs:
           build: npm run build
           start: npm run start
           wait-on: "http://localhost:8080"
+
+      - if: ${{ inputs.upload-pages-artifact }}
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./dist/
