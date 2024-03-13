@@ -7,7 +7,6 @@
     Tests the UI using line.html and line.js (however functionally the same as scatter and bar)
     By Justin Pham
 */
-require("whatwg-fetch")
 
 // Create a window.alert for the js to call to
 // Line referenced from: https://stackoverflow.com/a/55909840 by JRJurman
