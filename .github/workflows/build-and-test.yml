@@ -1,0 +1,48 @@
+# Run Unit, UI Integration and Cypress E2E Tests
+#   This workflow will run Unit, UI Integration and Cypress E2E Tests for the final project.
+#   by Nathan Rumsey
+
+
+name: Run Unit, UI Integration and Cypress E2E Tests
+
+on:
+  workflow_call:
+    inputs:
+      upload-pages-artifact:
+        type: boolean
+        required: false
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 21
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+      
+      - name: Run Unit and UI Integration Tests
+        run: npm run test
+
+      - name: Run Cypress Tests
+        uses: cypress-io/github-action@v3
+        with:
+          project: ./
+          browser: chrome
+          build: npm run build
+          start: npm run start
+          wait-on: "http://localhost:8080"
+
+      - if: ${{ inputs.upload-pages-artifact }}
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./dist/
