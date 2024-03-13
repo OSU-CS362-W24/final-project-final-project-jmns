@@ -73,6 +73,7 @@ module.exports = async function generateChartImg(type, data, xLabel, yLabel, tit
  * @return Returns an object that can be passed to JSON.stringify() to serve
  *   as a POST request body to the QuickChart API.
  */
+
 function generateQuickChartReq(type, data, xLabel, yLabel, title, color) {
     return {
         format: "png",
