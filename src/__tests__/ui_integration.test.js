@@ -7,6 +7,7 @@
     Tests the UI using line.html and line.js (however functionally the same as scatter and bar)
     By Justin Pham
 */
+require("whatwg-fetch")
 
 // Create a window.alert for the js to call to
 // Line referenced from: https://stackoverflow.com/a/55909840 by JRJurman
@@ -25,9 +26,7 @@ function initDomFromFiles(htmlPath, jsPath) {
     document.open()
     document.write(html)
     document.close()
-    jest.isolateModules(function () {
-            require(jsPath)
-        })
+    require(jsPath)
 }
 
 /*
@@ -51,33 +50,12 @@ beforeEach(() => {
 
     resetInputValues()
 
-    /*
-        You can toggle which page in the website to test with
-        Although each page (line, bar, scatter) is functionally the same
-
-        WHEN TESTING THIS PAGE USING THE BAR FILES, BE AWARE THAT THE
-        X VALUE INPUT HAS TYPE TEXT RATHER THAN TYPE NUMBER WHICH CAUSES
-        TESTS 2 and 3 TO BE BROKEN. 
-    */
-
-    initDomFromFiles(
-        `${__dirname}/../line/line.html`,
-        `${__dirname}/../line/line.js`
-    )
-
-    // initDomFromFiles(
-    //     `${__dirname}/../bar/bar.html`,
-    //     `${__dirname}/../bar/bar.js`
-    // )
-
-    // initDomFromFiles(
-    //     `${__dirname}/../scatter/scatter.html`,
-    //     `${__dirname}/../scatter/scatter.js`
-    // )
+    jest.resetModules()
 })
 
 afterEach(() => {
     jest.restoreAllMocks()
+    jest.resetModules()
 })
 
 /**********************************************
@@ -90,6 +68,11 @@ afterEach(() => {
 
 // Adds another input pair to the list of input
 test("Adds another input pair to the list of input", async function () {
+
+    initDomFromFiles(
+        `${__dirname}/../line/line.html`,
+        `${__dirname}/../line/line.js`
+    )
 
     const user = userEvent.setup()
 
@@ -117,6 +100,11 @@ test("Adds another input pair to the list of input", async function () {
 
 // Old values are presesrved correctly when another input pair is added
 test("Old values are presesrved correctly when another input pair is added", async function () {
+
+    initDomFromFiles(
+        `${__dirname}/../line/line.html`,
+        `${__dirname}/../line/line.js`
+    )
 
     const user = userEvent.setup()
 
@@ -151,6 +139,11 @@ test("Old values are presesrved correctly when another input pair is added", asy
 // New input pair can be typed into when another input pair is added
 test("New input pair can be typed into when another input pair is added", async function () {
 
+    initDomFromFiles(
+        `${__dirname}/../line/line.html`,
+        `${__dirname}/../line/line.js`
+    )
+
     const user = userEvent.setup()
 
     const value = 9
@@ -184,6 +177,11 @@ test("New input pair can be typed into when another input pair is added", async 
 
 // Multiple input pairs can be added
 test("Multiple input pairs can be added", async function () {
+
+    initDomFromFiles(
+        `${__dirname}/../line/line.html`,
+        `${__dirname}/../line/line.js`
+    )
 
     const user = userEvent.setup()
 
@@ -241,6 +239,11 @@ test("Multiple input pairs can be added", async function () {
 // Error message pops up when missing values
 test("Error message pops up when missing values Error: No data specified!", async function () {
 
+    initDomFromFiles(
+        `${__dirname}/../line/line.html`,
+        `${__dirname}/../line/line.js`
+    )
+
     const user = userEvent.setup()
 
     const errorMessage = "Error: No data specified!"
@@ -266,6 +269,11 @@ test("Error message pops up when missing values Error: No data specified!", asyn
 
 // Error message displays the message Error: No data specified! when missing XY values
 test("Error message displays the message Error: No data specified! when missing XY values", async function () {
+
+    initDomFromFiles(
+        `${__dirname}/../line/line.html`,
+        `${__dirname}/../line/line.js`
+    )
 
     const user = userEvent.setup()
 
@@ -302,6 +310,11 @@ test("Error message displays the message Error: No data specified! when missing 
 // Missing both labels pops up an error message
 test("Missing both labels pops up an error message Error: Must specify a label for both X and Y!", async function () {
 
+    initDomFromFiles(
+        `${__dirname}/../line/line.html`,
+        `${__dirname}/../line/line.js`
+    )
+
     const user = userEvent.setup()
 
     const errorMessage = "Error: Must specify a label for both X and Y!"
@@ -333,6 +346,11 @@ test("Missing both labels pops up an error message Error: Must specify a label f
 
 // Missing x label pops up an error message
 test("Missing x label pops up an error message Error: Must specify a label for both X and Y!", async function () {
+
+    initDomFromFiles(
+        `${__dirname}/../line/line.html`,
+        `${__dirname}/../line/line.js`
+    )
 
     const user = userEvent.setup()
 
@@ -368,6 +386,11 @@ test("Missing x label pops up an error message Error: Must specify a label for b
 
 // Missing y label pops up an error message
 test("Missing y label pops up an error message Error: Must specify a label for both X and Y!", async function () {
+
+    initDomFromFiles(
+        `${__dirname}/../line/line.html`,
+        `${__dirname}/../line/line.js`
+    )
 
     const user = userEvent.setup()
 
@@ -411,6 +434,11 @@ test("Missing y label pops up an error message Error: Must specify a label for b
 
 // Clearing chart data reverts Chart Color to default color
 test("Clearing chart data reverts Chart Color to default color", async function() {
+
+    initDomFromFiles(
+        `${__dirname}/../line/line.html`,
+        `${__dirname}/../line/line.js`
+    )
 
     const user = userEvent.setup()
 
@@ -461,6 +489,11 @@ test("Clearing chart data reverts Chart Color to default color", async function(
 // Clearing chart data clears Chart Title
 test("Clearing chart data clears Chart Title", async function() {
 
+    initDomFromFiles(
+        `${__dirname}/../line/line.html`,
+        `${__dirname}/../line/line.js`
+    )
+
     const user = userEvent.setup()
 
     /*
@@ -509,6 +542,11 @@ test("Clearing chart data clears Chart Title", async function() {
 
 // Clearing chart data clears Data Labels
 test("Clearing chart data clears Data Labels", async function() {
+
+    initDomFromFiles(
+        `${__dirname}/../line/line.html`,
+        `${__dirname}/../line/line.js`
+    )
 
     const user = userEvent.setup()
 
@@ -559,6 +597,11 @@ test("Clearing chart data clears Data Labels", async function() {
 
 // Clearing chart data reverts it to having only a pair of inputs for values
 test("Clearing chart data reverts it to having only a pair of inputs for values", async function() {
+
+    initDomFromFiles(
+        `${__dirname}/../line/line.html`,
+        `${__dirname}/../line/line.js`
+    )
 
     const user = userEvent.setup()
 
@@ -612,6 +655,11 @@ test("Clearing chart data reverts it to having only a pair of inputs for values"
 
 // Clearing chart data clears data from values
 test("Clearing chart data clears data from values", async function() {
+
+    initDomFromFiles(
+        `${__dirname}/../line/line.html`,
+        `${__dirname}/../line/line.js`
+    )
 
     const user = userEvent.setup()
 
@@ -674,25 +722,47 @@ test("Clearing chart data clears data from values", async function() {
 *
 **********************************************/
 
-const generateChartImg = require("../lib/generateChartImg")
 // const generateChartFun = require("../chartBuilder/chartBuilder")
 
 // Generate chart button sends the correct data to generateChartImg()
 test("Generate chart button sends the correct data to generateChartImg()", async function() {
 
+    initDomFromFiles(
+        `${__dirname}/../line/line.html`,
+        `${__dirname}/../line/line.js`
+    )
+
     const user = userEvent.setup()
+
+    const exampleData = [{x: '5', y:'5'}, {x: '5', y:'5'}, {x: '5', y:'5'}]
+
+    // Create spy for generate chart
+    jest.mock('../lib/generateChartImg');
+    const generateChartImg = require("../lib/generateChartImg")
+    generateChartImg.mockImplementation((type, data, xLabel, yLabel, title, color) => {
+
+        // Assert that the data is passed correctly
+        expect(type).toEqual("line")
+        expect(data).toEqual(exampleData)
+        expect(xLabel).toEqual("dummy1")
+        expect(yLabel).toEqual("dummy2")
+        expect(title).toEqual("dummy3")
+        expect(color).toEqual("#ff00ff")
+
+        return "http://placekitten.com/480/480"
+    })
 
     /*
         Fill in dummy values for every input
     */
     const chartTitle = domTesting.getByLabelText(document, "Chart title")
-    await user.type(chartTitle, "dummy")
+    await user.type(chartTitle, "dummy1")
     
     const xLabel = domTesting.getByLabelText(document, "X label")
-    await user.type(xLabel, "dummy")
+    await user.type(xLabel, "dummy2")
     
     const yLabel = domTesting.getByLabelText(document, "Y label")
-    await user.type(yLabel, "dummy")
+    await user.type(yLabel, "dummy3")
     
     // const chartColor = domTesting.getByLabelText(document, "Chart color")
     
@@ -717,60 +787,13 @@ test("Generate chart button sends the correct data to generateChartImg()", async
     await user.type(dataXInputs[2], dummy)
     await user.type(dataYInputs[2], dummy)
 
-    // const objectTest = { 'generateChartImg' : generateChartImg}
-
-    // Create spy for generate chart
-    const generateChartImgSpy = jest.spyOn(generateChartImg, 'generateChartImg')
-
-    generateChartImgSpy['generateChartImg'] = jest.fn(() => {
-        return "http://placekitten.com/480/480"
-    })
-
-    // generateChartImgSpy.mockImplementation(function () {
-    //     return "http://placekitten.com/480/480"
-    // })
-
-    expect(chartTitle).toHaveValue()
-    expect(xLabel).toHaveValue()
-    expect(yLabel).toHaveValue()
-    expect(dataXInputs[0]).toHaveValue()
-    expect(dataYInputs[0]).toHaveValue()
-    expect(dataXInputs[1]).toHaveValue()
-    expect(dataYInputs[1]).toHaveValue()
-    expect(dataXInputs[2]).toHaveValue()
-    expect(dataYInputs[2]).toHaveValue()
-
-    generateChartImg.generateChartImg()
-
+    // Generate the chart (links to )
     const generateChartButton = domTesting.getByRole(document, "button", {name : "Generate chart"})
 
     await user.click(generateChartButton)
-
-    const chartImgSection = document.getElementById('chart-display')
     
-    console.log(chartImgSection.innerHTML)
+    // Assert that the spy has been called
+    expect(generateChartImg).toHaveBeenCalledTimes(1)
 
-    expect(generateChartImgSpy).toHaveBeenCalledTimes(1)
-
-    // expect(generateChartImgSpy).toHaveBeenCalledTimes(1)
-
-    // generateChartImgSpy.mockRestore()
 })
 
-// test("test function", function () {
-
-//     // const example = {'generateChartImg' : generateChartImg}
-
-//     // const exampleSpy = jest.spyOn(example, 'generateChartImg')
-
-//     // expect(generateChartImg("line", [{"x": 1, "y": 1}], "xLabel", "yLabel", "#ff4500")).toHaveValue()
-
-//     // exampleSpy.mockImplementation(function () {
-//     //     return "http://placekitten.com/480/480"
-//     // })
-
-
-
-// })
-
-// Generate chart button recieves an image
