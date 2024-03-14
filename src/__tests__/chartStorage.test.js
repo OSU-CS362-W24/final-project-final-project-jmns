@@ -12,7 +12,7 @@ describe("Testing for saveChart function begins here", () => {
 
     test("saveChart function can save a new chart to localStorage", function(){
 
-        //Arrange
+        //ARRANGE
         const newChart = { title: 'New Chart', data: [{'x': 1, 'y': 1}, {'x': 2, 'y': 2}, {'x': 3, 'y': 3}, {'x': 4, 'y': 4}, {'x': 5, 'y': 5}]};
     
         //ACT
@@ -25,15 +25,15 @@ describe("Testing for saveChart function begins here", () => {
         expect(savedCharts.length).toBe(1);
     });
 
-    test("saveChart function can update an existing chart in localStorage", function(){
+    test("saveChart function can update an existing chart (when the index is less than the number of charts) in localStorage", function(){
 
-        //Arrange
-        const initialChart = { title: 'Intial Chart', data: [{ x: 0, y: 0 }] };
+        //ARRANGE
+        const initialChart = { title: 'Initial Chart', data: [{ x: 0, y: 0 }] };
         const updatedChart = { title: 'Updated Chart', data: [{ x: 5, y: 5 }] };
     
         //ACT
-        window.localStorage.setItem('savedCharts', JSON.stringify([initialChart]));
         //replace the initial chart with the updated chart 
+        saveChart(initialChart, 0)
         saveChart(updatedChart, 0);
         const savedCharts = JSON.parse(window.localStorage.getItem('savedCharts'));
     
@@ -45,8 +45,8 @@ describe("Testing for saveChart function begins here", () => {
 
     test("saveChart function can save multiple charts at different valid indicies to localStorage", function(){
 
-        //Arrange
-        const initialChart = { title: 'Intial Chart', data: [{ x: -100, y: -100 }, { x: 0, y: 0 }, { x: 10, y: 10 }]};
+        //ARRANGE
+        const initialChart = { title: 'Initial Chart', data: [{ x: -100, y: -100 }, { x: 0, y: 0 }, { x: 10, y: 10 }]};
         const updatedChart = { title: 'Secondary Chart', data: [{ x: 100, y: 100 }, { x: 200, y: 200 }, { x: 300, y: 300 }] };
     
         //ACT
@@ -63,24 +63,58 @@ describe("Testing for saveChart function begins here", () => {
 
     test("saveChart function appends a new chart when the index is null", function(){
 
-        //Arrange
-        const initialChart = { title: 'Intiail Chart', data: [{ x: 1.1, y: 2.2 }, { x: 3.3, y: 4.4 }]};
-        const SecondaryChart = { title: 'Secondary Chart', data: [{ x: -1.1, y: -2.2 }, { x: -3.3, y: -4.4 }]};
+        //ARRANGE
+        const initialChart = { title: 'Initial Chart', data: [{ x: 1.1, y: 2.2 }, { x: 3.3, y: 4.4 }]};
+        const secondaryChart = { title: 'Secondary Chart', data: [{ x: -1.1, y: -2.2 }, { x: -3.3, y: -4.4 }]};
     
         //ACT
         saveChart(initialChart, null)
-        saveChart(SecondaryChart, null)
+        saveChart(secondaryChart, null)
         const savedCharts = JSON.parse(window.localStorage.getItem('savedCharts'));
     
         //ASSERT
         expect(savedCharts).not.toBeNull()
         expect(savedCharts.length).toBe(2)
         expect(savedCharts[0]).toEqual(initialChart)
-        expect(savedCharts[1]).toEqual(SecondaryChart)
+        expect(savedCharts[1]).toEqual(secondaryChart)
+    });
+
+    test("saveChart function can save multiple charts at the end of the array (when the index is greater than the number of charts) to localStorage", function(){
+
+        //ARRANGE
+        const initialChart = { title: 'Intiail Chart', data: [{ x: 1, y: 2 }, { x: 2, y: 1 }]};
+        const secondaryChart = { title: 'Secondary Chart', data: [{ x: 4, y: 6 }, { x: 5, y: 2 }]};
+    
+        //ACT
+        saveChart(initialChart, 5)
+        saveChart(secondaryChart, 10)
+        const savedCharts = JSON.parse(window.localStorage.getItem('savedCharts'));
+    
+        //ASSERT
+        expect(savedCharts).not.toBeNull()
+        expect(savedCharts.length).toBe(2)
+        expect(savedCharts[0]).toEqual(initialChart)
+        expect(savedCharts[1]).toEqual(secondaryChart)
+    });
+
+    test("saveChart function overwrites charts to localStorage when the index is negative", function(){
+
+        //ARRANGE
+        const initialChart = { title: 'Intiail Chart', data: [{ x: 44, y: 44 }, { x: 22, y: 44 }]};
+        const updatedChart = { title: 'Secondary Chart', data: [{ x: 77, y: 66 }, { x: 55, y: 44 }]};
+    
+        //ACT
+        saveChart(initialChart, -3)
+        saveChart(updatedChart, -4)
+        const savedCharts = JSON.parse(window.localStorage.getItem('savedCharts'));
+    
+        //ASSERT
+        expect(savedCharts).not.toBeNull()
+        expect(savedCharts.length).toBe(1)
+        expect(savedCharts[0]).toEqual(updatedChart)
     });
 })
 
-//Tests for loadAllSavedCharts function start here - - - 
 describe("Testing for loadAllSavedCharts function begins here", () => {
 
     beforeEach(() => {
