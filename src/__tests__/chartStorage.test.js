@@ -237,7 +237,7 @@ describe("Tests for loadSavedChart function start here", () => {
 })
 
 
-describe("Tests for updateCurrentChartData function starts here", () => {
+describe("Tests for updateCurrentChartData function start here", () => {
 
     beforeEach(() => {
         window.localStorage.clear()
@@ -288,10 +288,51 @@ describe("Tests for updateCurrentChartData function starts here", () => {
         expect(loadedChart).toEqual(updatedChart)
     })
 
-
 })
 
+describe("Tests for loadCurrentChartData function start here", () => {
 
+    beforeEach(() => {
+        window.localStorage.clear()
+    })
 
-//Tests for loadCurrentChartData function start here - - - 
+    test("loadCurrentChartData returns an empty object when localStorage is empty", () => {
+        
+        //ACT
+        const loadedChartData = loadCurrentChartData()
+        
+        //ASSERT
+        expect(loadedChartData).not.toBe(null)
+        expect(loadedChartData).toEqual({})
+    })
 
+    test("loadCurrentChartData returns a valid object when localStorage has one element", () => {
+        
+        //ARRANGE
+        const chartData = { title: 'Test Chart', data: [{ x: 1, y: 2 }, { x: 2, y: 3 }] }
+        updateCurrentChartData(chartData)
+
+        //ACT
+        const loadedChartData = loadCurrentChartData()
+        
+        //ASSERT
+        expect(loadedChartData).not.toBe(null)
+        expect(loadedChartData).toEqual(chartData)
+    })
+
+    test("loadCurrentChartData returns the correct valid object when localStorage has been updated", () => {
+        
+        //ARRANGE
+        const firstChart = { title: 'First Chart', data: [{ x: 1, y: 3 }, { x: 2, y: 4 }] }
+        const updatedChart = { title: 'Second Chart', data: [{ x: 77, y: 4 }, { x: 4, y: 33 }] }
+        updateCurrentChartData(firstChart)
+        updateCurrentChartData(updatedChart)
+
+        //ACT
+        const loadedChartData = loadCurrentChartData()
+        
+        //ASSERT
+        expect(loadedChartData).toEqual(updatedChart)
+    })
+
+})
