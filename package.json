@@ -25,6 +25,7 @@
     "webpack-dev-server": "^4.15.0"
   },
   "jest": {
+    "testEnvironment": "jest-environment-jsdom",
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/src/__mocks__/styleMock.js"
     }
