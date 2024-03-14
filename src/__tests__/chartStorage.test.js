@@ -332,6 +332,7 @@ describe("Tests for loadCurrentChartData function start here", () => {
         const loadedChartData = loadCurrentChartData()
         
         //ASSERT
+        expect(loadedChartData).not.toBe(null)
         expect(loadedChartData).toEqual(updatedChart)
     })
 
