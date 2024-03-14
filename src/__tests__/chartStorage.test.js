@@ -236,11 +236,60 @@ describe("Tests for loadSavedChart function start here", () => {
     })
 })
 
-//Tests for loadSavedCharts function start here - - - 
+
+describe("Tests for updateCurrentChartData function starts here", () => {
+
+    beforeEach(() => {
+        window.localStorage.clear()
+    })
+
+    test("updateCurrentChartData returns an empty object when there are no charts saved in local storage", () => {
+
+        //ARRANGE
+        let emptyChart = {}
+
+        //ACT
+        updateCurrentChartData(emptyChart)
+        loadedCharts = JSON.parse(window.localStorage.getItem('currentChartData'))
+
+        //ASSERT
+        expect(loadedCharts).toEqual({})
+    })
+
+    test("updateCurrentChartData updates a single chart successfully", () => {
+
+        //ARRANGE
+        let initialChart = { title: 'Initial Chart', data: [{ 'x': 1, 'y': 2 }, { 'x': 3, 'y': 3.0 }, { 'x': -5.9, 'y': 6.6 }] }
+        saveChart(initialChart)
+
+        //ACT
+        let updatedChart = { title: 'Updated Chart', data: [{ 'x': 5, 'y': 3 }, { 'x': 77, 'y': 3.5 }, { 'x': -5.4, 'y': 646 }] }
+        updateCurrentChartData(updatedChart)
+        loadedChart = JSON.parse(window.localStorage.getItem('currentChartData'))
+
+        //ASSERT
+        expect(loadedChart).not.toBe(null)
+        expect(loadedChart).toEqual(updatedChart)
+    })
+
+    test("updateCurrentChartData updates a chart with an extra data point successfully", () => {
+
+        //ARRANGE
+        const initialChart = { title: 'Initial Chart', data: [{ 'x': 1, 'y': 2 }, { 'x': 3, 'y': 3.0 }] }
+        saveChart(initialChart)
+
+        // ACT
+        const updatedChart = { ...initialChart, data: [...initialChart.data, { 'x': 5, 'y': 3 }] }
+        updateCurrentChartData(updatedChart)
+        const loadedChart = JSON.parse(window.localStorage.getItem('currentChartData'))
+
+        // ASSERT
+        expect(loadedChart).not.toBeNull()
+        expect(loadedChart).toEqual(updatedChart)
+    })
 
 
-
-//Tests for updateCurrentChartData function start here - - - 
+})
 
 
 
