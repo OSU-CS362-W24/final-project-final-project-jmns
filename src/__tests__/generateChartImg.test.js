@@ -21,6 +21,13 @@ const generateChartImg = require("../lib/generateChartImg")
 
 //tests do not need to cover error cases as per assingment instructions
 
+/*
+Citation: Content within the URL was used for learning how to test a regex string pattern
+Date: 03/14/2024
+Based on: 'Expect - .toMatch(regexp | string)' from the jest documentation
+URL: https://jestjs.io/docs/expect#tomatchregexp--string
+*/
+
 test("The URL returned by generateChartImg for a line chart is not null", async function () {
 
     //ARRANGE
@@ -40,6 +47,8 @@ test("The URL returned by generateChartImg for a line chart is not null", async 
 
     //ASSERT
     expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
 })
 
 test("The URL returned by generateChartImg for a bar chart is not null", async function () {
@@ -61,6 +70,8 @@ test("The URL returned by generateChartImg for a bar chart is not null", async f
 
     //ASSERT
     expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
 })
 
 
@@ -83,6 +94,8 @@ test("The URL returned by generateChartImg for a scatter chart is not null", asy
 
     //ASSERT
     expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
 })
 
 test("The URL returned by generateChartImg without a color defined is not null", async function () {
@@ -104,6 +117,8 @@ test("The URL returned by generateChartImg without a color defined is not null",
 
     //ASSERT
     expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
 })
 
 test("The URL returned by generateChartImg without a title defined is not null", async function () {
@@ -125,6 +140,8 @@ test("The URL returned by generateChartImg without a title defined is not null",
 
     //ASSERT
     expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
 })
 
 test("The URL returned by generateChartImg without a title and color defined is not null", async function () {
@@ -146,6 +163,8 @@ test("The URL returned by generateChartImg without a title and color defined is 
 
     //ASSERT
     expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
 })
 
 test("The URL returned by generateChartImg without an xLabel defined is not null", async function () {
@@ -167,6 +186,8 @@ test("The URL returned by generateChartImg without an xLabel defined is not null
 
     //ASSERT
     expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
 })
 
 test("The URL returned by generateChartImg without an xLabel, title, color defined is not null", async function () {
@@ -188,6 +209,8 @@ test("The URL returned by generateChartImg without an xLabel, title, color defin
 
     //ASSERT
     expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
 })
 
 test("The URL returned by generateChartImg without a yLabel defined is not null", async function () {
@@ -209,6 +232,8 @@ test("The URL returned by generateChartImg without a yLabel defined is not null"
 
     //ASSERT
     expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
 })
 
 test("The URL returned by generateChartImg without a xLabel, yLabel, title, and color defined is not null", async function () {
@@ -230,6 +255,8 @@ test("The URL returned by generateChartImg without a xLabel, yLabel, title, and 
 
     //ASSERT
     expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
 })
 
 test("The URL returned by generateChartImg without data defined is not null", async function () {
@@ -251,6 +278,8 @@ test("The URL returned by generateChartImg without data defined is not null", as
 
     //ASSERT
     expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
 })
 
 test("The URL returned by generateChartImg without data, xLabel, yLabel, title, and color defined is not null", async function () {
@@ -272,6 +301,8 @@ test("The URL returned by generateChartImg without data, xLabel, yLabel, title, 
 
     //ASSERT
     expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
 })
 
 test("The URL returned by generateChartImg when data the is empty is not null", async function () {
@@ -293,6 +324,8 @@ test("The URL returned by generateChartImg when data the is empty is not null", 
 
     //ASSERT
     expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
 })
 
 test("The URL returned by generateChartImg when the data object contains 1 elemeent is not null", async function () {
@@ -314,6 +347,8 @@ test("The URL returned by generateChartImg when the data object contains 1 eleme
 
     //ASSERT
     expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
 })
 
 test("The URL returned by generateChartImg when everything but the title is passed as an empty string", async function () {
@@ -335,5 +370,6 @@ test("The URL returned by generateChartImg when everything but the title is pass
 
     //ASSERT
     expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
 })
-
