@@ -28,6 +28,98 @@ Based on: 'Expect - .toMatch(regexp | string)' from the jest documentation
 URL: https://jestjs.io/docs/expect#tomatchregexp--string
 */
 
+test("The URL returned by generateChartImg for a test with postive data is not null", async function () {
+
+    //ARRANGE
+    initDomFromFiles(
+        `${__dirname}/../index.html`,
+        `${__dirname}/../lib/generateChartImg.js`
+    )
+    const type = 'line'
+    const data = [{ x: 1, y: 2 }, { x: 2, y: 3 }, { x: 3, y: 4}]
+    const xLabel = 'X Axis'
+    const yLabel = 'Y Axis'
+    const title = 'Test Chart'
+    const color = 'purple'
+
+    //ACT
+    const imgUrl = await generateChartImg(type, data, xLabel, yLabel, title, color)
+
+    //ASSERT
+    expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
+})
+
+test("The URL returned by generateChartImg for a test with negative data is not null", async function () {
+
+    //ARRANGE
+    initDomFromFiles(
+        `${__dirname}/../index.html`,
+        `${__dirname}/../lib/generateChartImg.js`
+    )
+    const type = 'line'
+    const data = [{ x: -1, y: -2 }, { x: -2, y: -3 }, { x: -3, y: -4}]
+    const xLabel = 'X Axis'
+    const yLabel = 'Y Axis'
+    const title = 'Test Chart'
+    const color = 'pink'
+
+    //ACT
+    const imgUrl = await generateChartImg(type, data, xLabel, yLabel, title, color)
+
+    //ASSERT
+    expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
+})
+
+test("The URL returned by generateChartImg for a test with matching data points (all zero) is not null", async function () {
+
+    //ARRANGE
+    initDomFromFiles(
+        `${__dirname}/../index.html`,
+        `${__dirname}/../lib/generateChartImg.js`
+    )
+    const type = 'line'
+    const data = [{ x: 0, y: 0 }, { x: 0, y: 0 }, { x: 0, y: 0}]
+    const xLabel = 'X Axis'
+    const yLabel = 'Y Axis'
+    const title = 'Test Chart'
+    const color = 'black'
+
+    //ACT
+    const imgUrl = await generateChartImg(type, data, xLabel, yLabel, title, color)
+
+    //ASSERT
+    expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
+})
+
+test("The URL returned by generateChartImg for a test with floating-point data points is not null", async function () {
+
+    //ARRANGE
+    initDomFromFiles(
+        `${__dirname}/../index.html`,
+        `${__dirname}/../lib/generateChartImg.js`
+    )
+    const type = 'line'
+    const data = [{ x: 1000.00, y: 654.6541 }, { x: 984.564, y: 3524.654 }, { x: 865.165, y: 0.00}]
+    const xLabel = 'X Axis'
+    const yLabel = 'Y Axis'
+    const title = 'Test Chart'
+    const color = 'orange'
+
+    //ACT
+    const imgUrl = await generateChartImg(type, data, xLabel, yLabel, title, color)
+
+    //ASSERT
+    expect(imgUrl).not.toBe(null)
+    expect(imgUrl.startsWith('blob:nodedata')).toBe(true)
+    expect(imgUrl).toMatch(/^blob:nodedata:[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/)
+})
+
 test("The URL returned by generateChartImg for a line chart is not null", async function () {
 
     //ARRANGE
@@ -133,7 +225,7 @@ test("The URL returned by generateChartImg without a title defined is not null",
     const xLabel = 'X Axis'
     const yLabel = 'Y Axis'
     const title = undefined
-    const color = 'Blue'
+    const color = 'green'
 
     //ACT
     const imgUrl = await generateChartImg(type, data, xLabel, yLabel, title, color)
@@ -179,7 +271,7 @@ test("The URL returned by generateChartImg without an xLabel defined is not null
     const xLabel = undefined
     const yLabel = 'Y Axis'
     const title = 'Test Chart'
-    const color = 'blue'
+    const color = 'red'
 
     //ACT
     const imgUrl = await generateChartImg(type, data, xLabel, yLabel, title, color)
@@ -202,7 +294,7 @@ test("The URL returned by generateChartImg without an xLabel, title, color defin
     const xLabel = 'X Axis'
     const yLabel = undefined
     const title = 'Test Chart'
-    const color = 'blue'
+    const color = 'green'
 
     //ACT
     const imgUrl = await generateChartImg(type, data, xLabel, yLabel, title, color)
